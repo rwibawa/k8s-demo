@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hellobot
+spec:
+  containers:
+  - name: k8s-demo
+    image: rwibawa/k8s-demo:v1.5
