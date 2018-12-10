@@ -29,7 +29,7 @@ Once you have the environment set up (minikube or kubectl configured against a k
 
 You can play with this Spring Boot application in the cloud using the following maven command to deploy it:
 ```
-mvn clean package fabric8:deploy -Pkubernetes
+$ ./mvnw clean package fabric8:deploy -Pkubernetes -Dmaven.test.skip=true -Dmaven.repo.local=./.m2/repository -s ./settings.xml
 ```
 
 **Note**: Unfortunately, when you deploy using the fabric8 plugin, the readyness and liveness probes fail to point to the right actuator URL due a lack of support for spring boot.
