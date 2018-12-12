@@ -1,0 +1,122 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    fabric8.io/git-branch: master
+    fabric8.io/git-commit: bbc45baa9a2e1a399cda3a9a69e9ff0001df4d66
+    fabric8.io/iconUrl: img/icons/spring-boot.svg
+    fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=k8s-demo&var-version=0.0.1-SNAPSHOT
+    fabric8.io/scm-tag: HEAD
+    fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/k8s-demo
+  creationTimestamp: 2018-12-12T07:26:02Z
+  generation: 2
+  labels:
+    app: k8s-demo
+    group: com.navisow
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+  name: k8s-demo
+  namespace: default
+  resourceVersion: "212429"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/k8s-demo
+  uid: 2e2ec48e-fddf-11e8-af98-08d0f8f11711
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: k8s-demo
+      group: com.navisow
+      provider: fabric8
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        fabric8.io/git-branch: master
+        fabric8.io/git-commit: bbc45baa9a2e1a399cda3a9a69e9ff0001df4d66
+        fabric8.io/iconUrl: img/icons/spring-boot.svg
+        fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=k8s-demo&var-version=0.0.1-SNAPSHOT
+        fabric8.io/scm-tag: HEAD
+        fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/k8s-demo
+      creationTimestamp: null
+      labels:
+        app: k8s-demo
+        group: com.navisow
+        provider: fabric8
+        version: 0.0.1-SNAPSHOT
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        image: navisow/k8s-demo:snapshot-181211-232555-0876
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8097
+            scheme: HTTP
+          initialDelaySeconds: 180
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: spring-boot
+        ports:
+        - containerPort: 8097
+          name: sac
+          protocol: TCP
+        - containerPort: 9779
+          name: prometheus
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8097
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2018-12-12T07:26:03Z
+    lastUpdateTime: 2018-12-12T07:26:03Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2018-12-12T07:26:03Z
+    lastUpdateTime: 2018-12-12T07:27:19Z
+    message: ReplicaSet "k8s-demo-85f8fd799" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

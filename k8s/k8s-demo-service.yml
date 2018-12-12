@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    fabric8.io/git-branch: master
+    fabric8.io/git-commit: bbc45baa9a2e1a399cda3a9a69e9ff0001df4d66
+    fabric8.io/iconUrl: img/icons/spring-boot.svg
+    fabric8.io/scm-tag: HEAD
+    fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/k8s-demo
+    prometheus.io/port: "9779"
+    prometheus.io/scrape: "true"
+  creationTimestamp: 2018-12-12T07:26:02Z
+  labels:
+    app: k8s-demo
+    group: com.navisow
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+  name: k8s-demo
+  namespace: default
+  resourceVersion: "212284"
+  selfLink: /api/v1/namespaces/default/services/k8s-demo
+  uid: 2e22f38e-fddf-11e8-af98-08d0f8f11711
+spec:
+  clusterIP: 10.111.169.135
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: sac
+    nodePort: 32570
+    port: 8097
+    protocol: TCP
+    targetPort: 8097
+  selector:
+    app: k8s-demo
+    group: com.navisow
+    provider: fabric8
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
