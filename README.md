@@ -10,8 +10,19 @@ minikube start
 ```
 
 You also probably want to configure your docker client to point the minikube docker deamon with:
-```
-eval $(minikube docker-env)
+```bash
+$ eval $(minikube docker-env)
+
+# Remote configurations:
+# Minikube docker-env
+$ export DOCKER_TLS_VERIFY="1"
+$ export DOCKER_HOST="tcp://localhost:30001"
+$ export DOCKER_CERT_PATH="/home/rwibawa/.minikube/certs"
+$ export DOCKER_API_VERSION="1.35"
+
+$ ssh -L 30000:localhost:8001 -L 30001:192.168.39.118:2376 -L 9090:192.168.39.118:9090 \
+-L 8443:localhost:8443 -L 8098:localhost:8098 \
+ryan@192.168.1.101
 ```
 
 This will make sure that the docker images that you build are available to the minikube environment.
@@ -28,8 +39,9 @@ using the replication controller created by the plugin.
 Once you have the environment set up (minikube or kubectl configured against a kubernetes cluster)
 
 You can play with this Spring Boot application in the cloud using the following maven command to deploy it:
-```
-$ ./mvnw clean package fabric8:deploy -Pkubernetes -Dmaven.test.skip=true -Dmaven.repo.local=./.m2/repository -s ./settings.xml
+```bash
+$ ./mvnw clean package fabric8:deploy -Pkubernetes -Ddocker.host=https://localhost:30001 \
+-Dmaven.test.skip=true -Dmaven.repo.local=./.m2/repository -s ./settings.xml
 ```
 
 **Note**: Unfortunately, when you deploy using the fabric8 plugin, the readyness and liveness probes fail to point to the right actuator URL due a lack of support for spring boot.
